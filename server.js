@@ -47,6 +47,39 @@ app.get('/collectibles/:idx', (req, res) => {
 });
 
 
+// Query parameter
+
+app.get('/shoes', (req, res) => {
+    const shoes = [
+        { name: "Birkenstocks", price: 50, type: "sandal" },
+        { name: "Air Jordans", price: 500, type: "sneaker" },
+        { name: "Air Mahomeses", price: 501, type: "sneaker" },
+        { name: "Utility Boots", price: 20, type: "boot" },
+        { name: "Velcro Sandals", price: 15, type: "sandal" },
+        { name: "Jet Boots", price: 1000, type: "boot" },
+        { name: "Fifty-Inch Heels", price: 175, type: "heel" }
+    ];
+
+    const minPrice = Number(req.query.minPrice)
+    const maxPrice = Number(req.query.maxPrice)
+    const shoeType = req.query.type
+
+    const displayShoes = shoes.filter(shoe => {
+        if (!Number.isNaN(minPrice) && shoe.price < minPrice) return false;
+        if (!Number.isNaN(maxPrice) && shoe.price > maxPrice) return false;
+        if (shoeType && shoe.type !== shoeType) return false;
+        return true;
+    });
+
+    res.send(displayShoes);
+
+});
+
+
+
+
+
+
 
 // Listen for requests on port 3000
 app.listen(3000, () => {
